@@ -1,0 +1,31 @@
+# Configuration for https://goreleaser.com/
+project_name: pid2pod
+
+builds:
+  - binary: pid2pod-demo
+    main: ./cmd/pid2pod-demo/main.go
+    goos:
+      - linux
+    goarch:
+      - amd64
+    env:
+      - CGO_ENABLED=0
+
+dockers:
+  - image: gcr.io/heptio-images/pid2pod-demo
+    binary: pid2pod-demo
+    dockerfile: Dockerfile
+
+snapshot:
+  name_template: "git-{{.Commit}}"
+
+archive:
+  format: binary
+
+release:
+  github:
+    owner: heptiolabs
+    name: pid2pod
+  draft: true
+  prerelease: true
+  name_template: "v{{.Version}}"
